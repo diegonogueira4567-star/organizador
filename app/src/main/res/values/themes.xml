@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema da janela (a interface é desenhada em Compose/Material 3). AppCompat é exigido pelo diálogo de biometria em APIs antigas. -->
+    <style name="Theme.Organizador" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorAccent">@color/brand</item>
+    </style>
+</resources>

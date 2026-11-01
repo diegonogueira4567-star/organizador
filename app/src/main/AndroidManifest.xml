@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Sem permissão de INTERNET: o aplicativo é 100% offline por construção. -->
+    <!-- Exibir lembretes e avisos (Android 13+ pede consentimento em tempo de execução). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Lembretes no horário exato; se o usuário negar, o app usa alarmes inexatos. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Reagendar lembretes e rotinas após reinicializar o aparelho. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Desbloqueio opcional por biometria. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Incluídas pelo WorkManager, mas não usadas: o app não tem restrição de rede nem serviço em primeiro plano. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
+
+    <application
+        android:name=".OrganizadorApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Organizador"
+        android:localeConfig="@xml/locales_config"
+        tools:targetApi="34">
+
+        <!-- Permite medir quadros/inicialização com ferramentas do shell (Macrobenchmark); não expõe dados. -->
+        <profileable android:shell="true" tools:targetApi="29" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Organizador">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".core.notifications.AlarmReceiver" android:exported="false" />
+        <receiver android:name=".core.notifications.NotificationActionReceiver" android:exported="false" />
+        <receiver android:name=".core.notifications.SystemEventsReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Compartilha anexos com outros apps somente sob demanda e com permissão temporária. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- WorkManager inicializado sob demanda com a fábrica do Hilt. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+    </application>
+</manifest>

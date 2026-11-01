@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Organizador</string>
+    <string name="channel_reminders">Lembretes de tarefas</string>
+    <string name="channel_reminders_desc">Lembretes no horário definido para cada tarefa</string>
+    <string name="channel_routines">Checklists e rotinas</string>
+    <string name="channel_routines_desc">Avisos de checklists e rotinas do dia</string>
+    <string name="channel_summary">Resumo diário</string>
+    <string name="channel_summary_desc">Tarefas atrasadas e prazos próximos</string>
+</resources>

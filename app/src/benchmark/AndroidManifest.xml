@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Somente na variante "benchmark": carga de dados para medições. Não existe no release. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name=".BenchmarkSeedActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Organizador" />
+    </application>
+</manifest>
