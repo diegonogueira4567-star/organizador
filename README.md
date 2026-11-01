@@ -67,3 +67,8 @@ Resultados e cobertura por requisito em [`docs/TESTING.md`](docs/TESTING.md).
 - [TESTING.md](docs/TESTING.md) — estratégia e relatório
 - [CHANGELOG.md](docs/CHANGELOG.md)
 - [BUG_REPORT.md](docs/BUG_REPORT.md)
+
+## Licença
+
+Código distribuído sob a [licença MIT](LICENSE): pode ser usado, copiado, modificado e redistribuído,
+inclusive em outros projetos, desde que o aviso de copyright seja mantido. O software é fornecido sem garantia.
