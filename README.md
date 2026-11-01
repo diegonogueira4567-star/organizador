@@ -1,29 +1,61 @@
+<div align="center">
+
 # Organizador
 
-Aplicativo Android de produtividade pessoal **100% offline**: tarefas, checklists recorrentes, rotinas,
-notas em blocos, calendário, estatísticas, backup criptografado e bloqueio por PIN/biometria.
-Inspirado na simplicidade de uso do Todoist (sem copiar marca ou identidade visual).
+**Tarefas, checklists, rotinas e notas — tudo no seu celular, sem internet, sem conta e sem anúncios.**
 
-- Sem login, sem conta, sem servidor. O APK **não declara a permissão de INTERNET**.
-- Dados no armazenamento privado do app (Room/SQLite + DataStore). Backup em nuvem do Android desativado.
+<a href="https://github.com/diegonogueira4567-star/organizador/releases/latest/download/Organizador.apk">
+  <img src="https://img.shields.io/badge/Baixar%20APK-Android%208%2B-DC4C3E?style=for-the-badge&logo=android&logoColor=white" alt="Baixar APK" height="56">
+</a>
 
-## Entrega
+[![Versão](https://img.shields.io/github/v/release/diegonogueira4567-star/organizador?label=vers%C3%A3o&color=DC4C3E)](https://github.com/diegonogueira4567-star/organizador/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/diegonogueira4567-star/organizador/total?label=downloads)](https://github.com/diegonogueira4567-star/organizador/releases)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
+
+<img src="docs/images/telas.png" alt="Telas do Organizador: painel, tarefas de hoje, rotina e calendário" width="100%">
+
+</div>
+
+## Como instalar
+
+1. **No celular**, toque em **[Baixar APK](https://github.com/diegonogueira4567-star/organizador/releases/latest/download/Organizador.apk)** (sempre a versão mais recente).
+2. Abra o arquivo baixado. Na primeira vez, o Android pede para **permitir instalar apps desta fonte**
+   (navegador ou gerenciador de arquivos): permita e volte.
+3. Toque em **Instalar**. Pronto.
+
+Requer Android 8.0 ou mais recente. Para atualizar, baixe a versão nova e instale por cima: seus dados são mantidos.
+Histórico de versões em [Releases](https://github.com/diegonogueira4567-star/organizador/releases).
+
+## O que ele faz
+
+- **Tarefas** com prazo, prioridade, projetos, etiquetas, subtarefas, lembretes e repetição.
+- **Checklists e rotinas** diárias, semanais, de sábado, dias escolhidos, mensais, anuais… cada dia começa do zero
+  e o histórico de execuções fica guardado.
+- **Notas** com títulos, negrito, listas, caixas de seleção, tabelas, imagens e salvamento automático.
+- **Calendário** (mês, semana, dia, agenda), **painel** personalizável e **estatísticas**.
+- **Backup** em arquivo com senha opcional e **bloqueio** por PIN ou digital.
+- **Privacidade:** o app não tem permissão de internet. Nada sai do seu celular.
+
+---
+
+## Para desenvolvedores
+
+Aplicativo nativo em Kotlin + Jetpack Compose (Material 3), Room/SQLite, Hilt, WorkManager.
 
 | Item | Local |
 |---|---|
-| APK de release assinado | `entrega/Organizador-1.1.0-release.apk` (versionCode 2, versionName 1.1.0) |
-| Código-fonte | `domain/`, `data/`, `app/` |
-| Documentação | `docs/` |
+| Código-fonte | `domain/`, `data/`, `app/`, `benchmark/` |
+| Documentação técnica | `docs/` |
 | Relatório de testes | `docs/TESTING.md` |
 | Bugs corrigidos e limitações conhecidas | `docs/BUG_REPORT.md` |
 
-## Requisitos de build
+### Requisitos de build
 
 - JDK 17+ (testado com Temurin 21 em `~/Android/jdk-21`)
 - Android SDK com plataforma 35 e build-tools 35 (`local.properties` → `sdk.dir`)
 - Gradle 8.10.2 (wrapper incluído), AGP 8.7.3, Kotlin 2.0.21
 
-## Compilar e executar
+### Compilar e executar
 
 ```bash
 export JAVA_HOME=$HOME/Android/jdk-21
@@ -32,7 +64,7 @@ export JAVA_HOME=$HOME/Android/jdk-21
 ./gradlew :app:assembleRelease        # APK de release minificado e assinado
 ```
 
-### Assinatura de release
+#### Assinatura de release
 
 As credenciais **não ficam no repositório**. O build lê de `~/.gradle/gradle.properties` (ou variáveis de ambiente):
 
@@ -47,7 +79,7 @@ Nesta máquina o keystore foi criado em `~/.android-keystores/organizador-releas
 **Faça cópia de segurança desse arquivo e da senha**: sem eles não é possível publicar atualizações com a mesma assinatura.
 Sem as propriedades, `assembleRelease` gera um APK não assinado.
 
-## Testes
+### Testes
 
 ```bash
 ./gradlew :domain:test :data:testDebugUnitTest                         # JVM (rápidos)
@@ -58,7 +90,18 @@ Sem as propriedades, `assembleRelease` gera um APK não assinado.
 
 Resultados e cobertura por requisito em [`docs/TESTING.md`](docs/TESTING.md).
 
-## Documentação
+### Publicar uma nova versão
+
+Aumente `versionCode`/`versionName` em `app/build.gradle.kts`, gere `./gradlew :app:assembleRelease` e crie a release
+anexando o APK **também com o nome `Organizador.apk`** — é esse nome que mantém o botão "Baixar APK" apontando
+sempre para a versão mais nova:
+
+```bash
+cp app/build/outputs/apk/release/app-release.apk /tmp/Organizador.apk
+gh release create vX.Y.Z /tmp/Organizador.apk --title "Organizador X.Y.Z" --notes "Novidades…"
+```
+
+### Documentação
 
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) — módulos, camadas, decisões
 - [DATABASE.md](docs/DATABASE.md) — tabelas, relacionamentos, índices, migrações
